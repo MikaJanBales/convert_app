@@ -33,7 +33,10 @@ async def get_course(from_currency: str, to_currency: str, db: Session = Depends
     return _course
 
 
-# @router.get("/converter")
-# async def get_converting_(db: Session = Depends(get_db)):
-#     _currency = crud.converting(db)
-#     return _currency
+@router.get("/converter/{amount}_{from_currency}-{to_currency}")
+async def convert(amount: int, from_currency: str, to_currency: str, db: Session = Depends(get_db)):
+    _course = get_one_course(db, from_currency, to_currency)
+    if _course is None:
+        add_course(db, from_currency, to_currency)
+    converted_amounts = crud.get_converted_amount(db, amount, from_currency, to_currency)
+    return converted_amounts

@@ -24,3 +24,14 @@ def add_course(session: Session, from_currency: str, to_currency: str):
     )
     session.add(course)
     session.commit()
+
+
+def get_converted_amount(session: Session, amount: int, from_currency: str, to_currency: str):
+    course = get_one_course(session, from_currency, to_currency)
+    rate = course.rate
+    converted_amount = round(amount * rate, 2)
+    convert = {
+        from_currency: amount,
+        to_currency: converted_amount
+    }
+    return convert
