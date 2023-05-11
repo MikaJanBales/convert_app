@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+
+    environment:
+      POSTGRES_USER: "convert"
+      POSTGRES_PASSWORD: "convert"
+      POSTGRES_DB: "convert"
+    ports:
+      - "5432:5432"
