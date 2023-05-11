@@ -5,6 +5,7 @@ from convert_app.db.config import Base
 
 class Course(Base):
     __tablename__ = "course"
+    __table_args__ = {"extend_existing": True}
 
     id = Column(Integer, primary_key=True)
     from_currency = Column(String(10), nullable=False)
