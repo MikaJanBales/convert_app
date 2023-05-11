@@ -4,7 +4,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# SECRET_KEY = "riuhabsiasnamosimcei83ahff3jkihbiogybhnjjfxjwoifw55hg54g3ff2fwferegergegrhhe4"
 
 def get_connect_string(env):
     adapter = env.get('DATABASE_ADAPTER', 'postgresql')

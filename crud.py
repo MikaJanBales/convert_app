@@ -1,40 +1,26 @@
 from sqlalchemy.orm import Session
 
-from convert_app.db.models.courses import Courses
+from convert_app.courses import get_course_currencies
+from convert_app.db.models.courses import Course
 
 
 def get_all_courses(session: Session):
-    currencies = session.query(Courses).all()
-    return currencies
+    courses = session.query(Course).all()
+    return courses
 
 
+def get_one_course(session: Session, from_currency: str, to_currency: str):
+    course = session.query(Course).filter(Course.from_currency == from_currency,
+                                          Course.to_currency == to_currency).first()
+    return course
 
 
-
-
-
-
-
-
-# def create_user(session: Session, user: CreateUserSchema):
-#     db_user = NewUser(**user.dict())
-#     session.add(db_user)
-#     session.commit()
-#     session.refresh(db_user)
-#     return db_user
-#
-#
-# def get_user(session: Session, email: str):
-#     return session.query(NewUser).filter(NewUser.email == email).one()
-#
-#
-# def get_user_by_id(session: Session, id: int):
-#     return session.query(NewUser).filter(NewUser.id == id).one()
-#
-#
-# def list_users(session: Session):
-#     return session.query(NewUser).all()
-#
-#
-# def get_user_by_id(session: Session, id: int):
-#     return session.query(NewUser).filter(NewUser.id == id).one()
+def add_course(session: Session, from_currency: str, to_currency: str):
+    rate = get_course_currencies(from_currency, to_currency)
+    course = Course(
+        from_currency=from_currency,
+        to_currency=to_currency,
+        rate=rate
+    )
+    session.add(course)
+    session.commit()

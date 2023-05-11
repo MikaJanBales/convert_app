@@ -1,9 +1,10 @@
 import uvicorn
 from fastapi import FastAPI
-from db.config import Base, engine
+from db.models.courses import Base
+from db.config import engine
 from views import router
 
-Base.metadata.create_all(engine)
+Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Converter")
 
 app.include_router(router, prefix="/convert", tags=["convert"])

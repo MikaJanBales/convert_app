@@ -4,7 +4,7 @@ API_CONVERT = "fc66c1e4fe94bd298f5d8414"
 
 
 # функция для конвертации валют
-def get_converted_currencies(from_wallet, to_wallet):
+def get_course_currencies(from_wallet, to_wallet):
     # Корреткировка названий валют
     from_wallet = from_wallet.upper()
     to_wallet = to_wallet.upper()
@@ -23,6 +23,3 @@ def get_converted_currencies(from_wallet, to_wallet):
         return course
     else:
         raise
-
-
-print(get_course("RUB", "USD"))
