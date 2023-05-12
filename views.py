@@ -50,7 +50,7 @@ async def get_course(from_currency: str, to_currency: str, db: Session = Depends
 async def background_task_scheduler(db: Session):
     while True:
         await update_course(db)
-        await asyncio.sleep(30)  # ожидание: 1 час
+        await asyncio.sleep(3600)  # ожидание: 1 час
 
 
 # Запуск фоновой задчи для обновления курса валют в бд
