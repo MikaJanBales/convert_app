@@ -46,5 +46,6 @@ async def convert(amount: int, from_currency: str, to_currency: str, db: Session
     _course = get_one_course(db, from_currency, to_currency)
     if _course is None:
         add_course(db, from_currency, to_currency)
-    converted_amounts = get_converted_amount(db, amount, from_currency, to_currency)
+    _course = get_one_course(db, from_currency, to_currency)
+    converted_amounts = get_converted_amount(_course, amount, from_currency, to_currency)
     return converted_amounts

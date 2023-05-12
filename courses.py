@@ -1,7 +1,6 @@
 import requests
-from sqlalchemy.orm import Session
 
-from convert_app.crud import get_one_course
+from db.models.courses import Course
 
 API_KEY = "eGgkuOeHlKFE8UA9LVfnyYR8CGSR0ESH"
 
@@ -34,8 +33,7 @@ def get_course_currencies(from_currency, to_currency):
 
 
 # Конвертация валют
-def get_converted_amount(session: Session, amount: int, from_currency: str, to_currency: str):
-    course = get_one_course(session, from_currency, to_currency)
+def get_converted_amount(course: Course, amount: int, from_currency: str, to_currency: str):
     rate = course.rate
     converted_amount = round(amount * rate, 3)
     convert = {

@@ -36,6 +36,3 @@ def update_course(session: Session, from_currency: str, to_currency: str):
                                  Course.to_currency == to_currency).update({"rate": rate},
                                                                            synchronize_session='fetch')
     session.commit()
-
-
-
