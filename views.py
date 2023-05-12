@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from convert_app import crud
+from convert_app.courses import get_converted_amount
 from convert_app.crud import add_course, get_one_course, update_course
 from convert_app.db.config import SessionLocal
 
@@ -45,5 +46,5 @@ async def convert(amount: int, from_currency: str, to_currency: str, db: Session
     _course = get_one_course(db, from_currency, to_currency)
     if _course is None:
         add_course(db, from_currency, to_currency)
-    converted_amounts = crud.get_converted_amount(db, amount, from_currency, to_currency)
+    converted_amounts = get_converted_amount(db, amount, from_currency, to_currency)
     return converted_amounts
