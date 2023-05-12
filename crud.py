@@ -29,10 +29,14 @@ def add_course(session: Session, from_currency: str, to_currency: str):
     session.commit()
 
 
-# Обновление курса из бд
-def update_course(session: Session, from_currency: str, to_currency: str):
-    rate = get_course_currencies(from_currency, to_currency)
-    session.query(Course).filter(Course.from_currency == from_currency,
-                                 Course.to_currency == to_currency).update({"rate": rate},
-                                                                           synchronize_session='fetch')
-    session.commit()
+# Обновление всех курсов в бд
+async def update_course(session: Session):
+    try:
+        courses = session.query(Course).all()
+        for course in courses:
+            rate = get_course_currencies(course.from_currency, course.to_currency)
+            course.rate = rate
+            session.add(course)
+            session.commit()
+    except AttributeError as e:
+        pass

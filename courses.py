@@ -2,7 +2,7 @@ import requests
 
 from db.models.courses import Course
 
-API_KEY = "eGgkuOeHlKFE8UA9LVfnyYR8CGSR0ESH"
+API_KEY = "CEhgKb4CZ90uWW728rKCI0qZ5Zzv7Pff"
 
 
 # Функция для конвертации валют
@@ -16,7 +16,7 @@ def get_course_currencies(from_currency, to_currency):
 
     payload = {}
     headers = {
-        "apikey": "eGgkuOeHlKFE8UA9LVfnyYR8CGSR0ESH"
+        "apikey": API_KEY
     }
 
     # Отправляем GET-запрос
@@ -29,7 +29,8 @@ def get_course_currencies(from_currency, to_currency):
         course = round(course, 3)
         return course
     else:
-        raise
+        print(response)
+        # raise
 
 
 # Конвертация валют
