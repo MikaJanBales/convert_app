@@ -26,10 +26,19 @@ def add_course(session: Session, from_currency: str, to_currency: str):
     session.commit()
 
 
+def update_course(session: Session, from_currency: str, to_currency: str):
+    rate = get_course_currencies(from_currency, to_currency)
+    session.query(Course).filter(Course.from_currency == from_currency,
+                                 Course.to_currency == to_currency).update({"rate": rate},
+                                                                           synchronize_session='fetch')
+    session.commit()
+
+
 def get_converted_amount(session: Session, amount: int, from_currency: str, to_currency: str):
     course = get_one_course(session, from_currency, to_currency)
     rate = course.rate
-    converted_amount = round(amount * rate, 2)
+    # converted_amount = round(amount * rate, 3)
+    converted_amount = amount * rate
     convert = {
         from_currency: amount,
         to_currency: converted_amount

@@ -1,25 +1,30 @@
 import requests
 
-API_CONVERT = "fc66c1e4fe94bd298f5d8414"
+API_KEY = "eGgkuOeHlKFE8UA9LVfnyYR8CGSR0ESH"
 
 
 # функция для конвертации валют
-def get_course_currencies(from_wallet, to_wallet):
+def get_course_currencies(from_currency, to_currency):
     # Корреткировка названий валют
-    from_wallet = from_wallet.upper()
-    to_wallet = to_wallet.upper()
+    from_currency = from_currency.upper()
+    to_currency = to_currency.upper()
 
-    # URL для доступа к API Exchange Rate
-    url = f'https://v6.exchangerate-api.com/v6/{API_CONVERT}/latest/{from_wallet}'
+    # URL для доступа к API Open Exchange Rates
+    url = f"https://api.apilayer.com/exchangerates_data/latest?symbols={to_currency}&base={from_currency}"
+
+    payload = {}
+    headers = {
+        "apikey": "eGgkuOeHlKFE8UA9LVfnyYR8CGSR0ESH"
+    }
 
     # Отправляем GET-запрос
-    response = requests.get(url)
+    response = requests.request("GET", url, headers=headers, data=payload)
 
     # Обрабатываем ответ сервера
     if response.status_code == 200:
         data = response.json()
-        course = data["conversion_rates"][to_wallet]
-        course = round(course, 3)
+        course = data["rates"][to_currency]
+        # course = round(course, 3)
         return course
     else:
         raise
