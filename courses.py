@@ -1,8 +1,7 @@
 import requests
 
+from convert_app.db.config import API_KEY
 from db.models.courses import Course
-
-API_KEY = "CEhgKb4CZ90uWW728rKCI0qZ5Zzv7Pff"
 
 
 # Функция для конвертации валют
