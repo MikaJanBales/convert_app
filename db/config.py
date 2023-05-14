@@ -11,7 +11,7 @@ def get_connect_string(env):
     adapter = env.get('DATABASE_ADAPTER', 'postgresql')
     username = env.get('DATABASE_USERNAME', 'convert')
     password = env.get('DATABASE_PASSWORD', 'convert')
-    host = env.get('DATABASE_HOST', "db")
+    host = env.get('DATABASE_HOST', "localhost")
     port = env.get('DATABASE_PORT', 5432)
     db_name = env.get('DATABASE_NAME', 'convert')
     if password:
