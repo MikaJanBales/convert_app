@@ -3,16 +3,15 @@ import asyncio
 from fastapi import Depends, APIRouter
 from sqlalchemy.orm import Session
 
-from convert_app import crud
-from convert_app.courses import get_converted_amount
-from convert_app.crud import update_course, get_one_course, add_course
-from convert_app.db.config import SessionLocal
+from courses import get_converted_amount
+from crud import update_course, get_one_course, add_course, get_all_courses
+from db.config import SessionLocal
 
 
 router = APIRouter()
 
 
-# Подключение к бд
+# Подключение к бд, Dependency
 def get_db() -> Session:
     db = SessionLocal()
     try:
@@ -35,7 +34,7 @@ def check_course(from_currency: str, to_currency: str, db: Session):
 # Эндпоинт для получения списка курсов валют
 @router.get("/get_courses")
 async def get_courses(db: Session = Depends(get_db)):
-    _course = crud.get_all_courses(db)
+    _course = get_all_courses(db)
     return _course
 
 
@@ -55,7 +54,7 @@ async def background_task_scheduler(db: Session):
 
 # Запуск фоновой задчи для обновления курса валют в бд
 @router.on_event("startup")
-async def startup_event():
+async def startup_background_task():
     db = SessionLocal()
     asyncio.create_task(background_task_scheduler(db))
 

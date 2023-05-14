@@ -1,6 +1,6 @@
 from sqlalchemy import Integer, Column, String, Float
 
-from convert_app.db.config import Base
+from db.config import Base
 
 
 class Course(Base):

@@ -1,12 +1,27 @@
-version: '3.9'
-
+version: "3.9"
 services:
   db:
-    image: postgres
-
+    image: postgres:latest
     environment:
-      POSTGRES_USER: "convert"
-      POSTGRES_PASSWORD: "convert"
-      POSTGRES_DB: "convert"
+      POSTGRES_USER: convert
+      POSTGRES_PASSWORD: convert
+      POSTGRES_DB: convert
     ports:
       - "5432:5432"
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_ADAPTER=postgresql
+      - POSTGRES_USERNAME=convert
+      - POSTGRES_PASSWORD=convert
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_NAME=convert
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+
