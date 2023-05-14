@@ -1,6 +1,6 @@
 import requests
 
-from convert_app.db.config import API_KEY
+from db.config import API_KEY
 from db.models.courses import Course
 
 

@@ -2,23 +2,14 @@
 
 ## Instructions for installing and running the application:
 
-1) Download all the libraries and packages with the required versions required for the project using the command:
+1) Up docker, thereby creating a local database, download all dependencies and run the application using the command:
 
 ```
-pip install -r requirements.txt
+docker-compose up
 ```
 
-2) We start docker, thereby creating a local database using the command:
+2) Go to host 127.0.0.1
 
-```
-docker-compose up -d
-```
-
-3) Run the application locally using the command:
-
-```
-python main.py 
-```
 
 ## Assignment:
 
