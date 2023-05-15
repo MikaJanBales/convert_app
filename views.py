@@ -5,19 +5,9 @@ from sqlalchemy.orm import Session
 
 from courses import get_converted_amount
 from crud import update_course, get_one_course, add_course, get_all_courses
-from db.config import SessionLocal
-
+from db.config import SessionLocal, get_db
 
 router = APIRouter()
-
-
-# Подключение к бд, Dependency
-def get_db() -> Session:
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 # Проверка наличия курса в бд
@@ -27,7 +17,7 @@ def check_course(from_currency: str, to_currency: str, db: Session):
     _course = get_one_course(db, from_currency, to_currency)
     if _course is None:
         add_course(db, from_currency, to_currency)
-    _course = get_one_course(db, from_currency, to_currency)
+        _course = get_one_course(db, from_currency, to_currency)
     return _course
 
 

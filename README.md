@@ -8,7 +8,7 @@
 docker-compose up
 ```
 
-2) Go to host 127.0.0.1
+2) Go to  http://127.0.0.1:8000/
 
 ## API usage examples:
 

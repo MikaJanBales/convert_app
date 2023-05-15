@@ -2,7 +2,7 @@ import os
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Session
 
 API_KEY = "CEhgKb4CZ90uWW728rKCI0qZ5Zzv7Pff"
 
@@ -26,3 +26,13 @@ connect_string = get_connect_string(os.environ)
 engine = create_engine(connect_string)
 SessionLocal = sessionmaker(bind=engine, autoflush=False)
 Base = declarative_base()
+
+db = SessionLocal()
+
+
+# Подключение к бд, Dependency
+def get_db() -> Session:
+    try:
+        yield db
+    finally:
+        db.close()
