@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from db.schemas.courses import ConverterCourseSchema, RateCourseSchema
 from courses import get_converted_amount
 from crud import update_course, get_one_course, add_course, get_all_courses
-from db.config import SessionLocal, get_db
+from db.config import get_db, db
 
 router = APIRouter()
 
@@ -46,7 +46,6 @@ async def background_task_scheduler(db: Session):
 # Запуск фоновой задчи для обновления курса валют в бд
 @router.on_event("startup")
 async def startup_background_task():
-    db = SessionLocal()
     asyncio.create_task(background_task_scheduler(db))
 
 
