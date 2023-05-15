@@ -33,7 +33,7 @@ def get_course_currencies(from_currency, to_currency):
 
 
 # Конвертация валют
-def get_converted_amount(course: Course, amount: int, from_currency: str, to_currency: str):
+def get_converted_amount(course: Course, amount: float, from_currency: str, to_currency: str):
     rate = course.rate
     converted_amount = round(amount * rate, 3)
     convert = {

@@ -51,7 +51,7 @@ uvicorn main:app --host localhost --port 8000
 - HTTP request: GET /exchange/converter/{amount}_{from_currency}-{to_currency}
   {"amount": 1000, "from_currency": "USD", "to_currency": "EUR"}
 - Answer: currency pair and conversion amount before and after in JSON format
-  {"amount": 1000, "from_currency": "USD", "to_currency": "EUR", "converted_amount": 950}
+  {"USD": 1000, "EUR": 920}
 
 ## Assignment:
 
@@ -75,4 +75,4 @@ uvicorn main:app --host localhost --port 8000
     - Используйте FastAPI для создания API с двумя эндпоинтами: один для получения актуальных курсов валют, другой для
       конвертации между валютами.
     - Настройте взаимодействие с базой данных с помощью SQLAlchemy.
-    - Реализуйте внедрение зависимостей с использованием Dependency Injector.
+    - Реализуйте внедрение зависимостей с использованием Dependency.

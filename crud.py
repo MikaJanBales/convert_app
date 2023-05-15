@@ -18,10 +18,9 @@ def get_one_course(session: Session, from_currency: str, to_currency: str):
     try:
         course = session.query(Course).filter(Course.from_currency == from_currency,
                                               Course.to_currency == to_currency).first()
+        return course
     except Exception as error:
         print("Ошибка при работе с PostgreSQL", error)
-    else:
-        return course
 
 
 # Добавление курса в бд
@@ -48,5 +47,5 @@ async def update_course(session: Session):
             course.rate = rate
             session.add(course)
         session.commit()
-    except AttributeError:
-        pass
+    except AttributeError as error:
+        print(error)

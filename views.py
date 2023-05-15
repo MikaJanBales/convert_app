@@ -3,6 +3,7 @@ import asyncio
 from fastapi import Depends, APIRouter
 from sqlalchemy.orm import Session
 
+from db.schemas.courses import ConverterCourseSchema, RateCourseSchema
 from courses import get_converted_amount
 from crud import update_course, get_one_course, add_course, get_all_courses
 from db.config import SessionLocal, get_db
@@ -29,9 +30,9 @@ async def get_courses(db: Session = Depends(get_db)):
 
 
 # Эндпоинт для получения актуального курса валют, на вход пара валют, на выход курс
-@router.get("/get_course/{from_currency}-{to_currency}")
-async def get_course(from_currency: str, to_currency: str, db: Session = Depends(get_db)):
-    _course = check_course(from_currency, to_currency, db)
+@router.post("/get_course/{from_currency}-{to_currency}")
+async def get_course(course: RateCourseSchema, db: Session = Depends(get_db)):
+    _course = check_course(course.from_currency, course.to_currency, db)
     return _course
 
 
@@ -49,9 +50,8 @@ async def startup_background_task():
     asyncio.create_task(background_task_scheduler(db))
 
 
-# Эндпоинт для конвертации валют, на вход сумма конвертирования и пара валют, на выходе сумма результата конвертации
 @router.post("/converter/{amount}_{from_currency}-{to_currency}")
-async def convert(amount: int, from_currency: str, to_currency: str, db: Session = Depends(get_db)):
-    _course = check_course(from_currency, to_currency, db)
-    converted_amounts = get_converted_amount(_course, amount, from_currency, to_currency)
+async def convert(course: ConverterCourseSchema, db: Session = Depends(get_db)):
+    _course = check_course(course.from_currency, course.to_currency, db)
+    converted_amounts = get_converted_amount(_course, course.amount, course.from_currency, course.to_currency)
     return converted_amounts
