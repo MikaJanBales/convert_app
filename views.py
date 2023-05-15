@@ -12,34 +12,34 @@ router = APIRouter()
 
 
 # Проверка наличия курса в бд
-def check_course(from_currency: str, to_currency: str, db: Session):
+def check_course(from_currency: str, to_currency: str, session: Session):
     from_currency = from_currency.upper()
     to_currency = to_currency.upper()
-    _course = get_one_course(db, from_currency, to_currency)
+    _course = get_one_course(session, from_currency, to_currency)
     if _course is None:
-        add_course(db, from_currency, to_currency)
-        _course = get_one_course(db, from_currency, to_currency)
+        add_course(session, from_currency, to_currency)
+        _course = get_one_course(session, from_currency, to_currency)
     return _course
 
 
 # Эндпоинт для получения списка курсов валют
 @router.get("/get_courses")
-async def get_courses(db: Session = Depends(get_db)):
-    _course = get_all_courses(db)
+async def get_courses(session: Session = Depends(get_db)):
+    _course = get_all_courses(session)
     return _course
 
 
 # Эндпоинт для получения актуального курса валют, на вход пара валют, на выход курс
 @router.post("/get_course/{from_currency}-{to_currency}")
-async def get_course(course: RateCourseSchema, db: Session = Depends(get_db)):
-    _course = check_course(course.from_currency, course.to_currency, db)
+async def get_course(course: RateCourseSchema, session: Session = Depends(get_db)):
+    _course = check_course(course.from_currency, course.to_currency, session)
     return _course
 
 
 # Фоновая задача для обновления курса валют в бд каждый час
-async def background_task_scheduler(db: Session):
+async def background_task_scheduler(session: Session):
     while True:
-        await update_course(db)
+        await update_course(session)
         await asyncio.sleep(3600)  # ожидание: 1 час
 
 
@@ -50,7 +50,7 @@ async def startup_background_task():
 
 
 @router.post("/converter/{amount}_{from_currency}-{to_currency}")
-async def convert(course: ConverterCourseSchema, db: Session = Depends(get_db)):
-    _course = check_course(course.from_currency, course.to_currency, db)
+async def convert(course: ConverterCourseSchema, session: Session = Depends(get_db)):
+    _course = check_course(course.from_currency, course.to_currency, session)
     converted_amounts = get_converted_amount(_course, course.amount, course.from_currency, course.to_currency)
     return converted_amounts
