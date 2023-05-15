@@ -41,17 +41,17 @@ uvicorn main:app --host localhost --port 8000
 
 2. Getting the exchange rate of a certain pair of currencies:
 
-- HTTP request: GET /exchange/get_course/{from_currency}-{to_currency}
-  {"from_currency": "USD", "to_currency": "RUB"}
-- Answer: currency pair and exchange rate in JSON format
-  {"from_currency": "USD", "to_currency": "RUB", "rates": 40.468}
+- HTTP request: GET /exchange/get_course/{from_currency}-{to_currency} 
+- {"from_currency": "USD", "to_currency": "RUB"}
+- Answer: currency pair and exchange rate in JSON format 
+- {"from_currency": "USD", "to_currency": "RUB", "rates": 40.468}
 
 3. Converter:
 
-- HTTP request: GET /exchange/converter/{amount}_{from_currency}-{to_currency}
-  {"amount": 1000, "from_currency": "USD", "to_currency": "EUR"}
-- Answer: currency pair and conversion amount before and after in JSON format
-  {"USD": 1000, "EUR": 920}
+- HTTP request: GET /exchange/converter/{amount}_{from_currency}-{to_currency} 
+- {"amount": 1000, "from_currency": "USD", "to_currency": "EUR"}
+- Answer: currency pair and conversion amount before and after in JSON format 
+- {"USD": 1000, "EUR": 920}
 
 ## Assignment:
 
