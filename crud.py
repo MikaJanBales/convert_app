@@ -1,11 +1,10 @@
-from sqlalchemy.orm import Session
-
 from courses import get_course_currencies
 from db.models.courses import Course
+from db.config import db as session
 
 
 # Получение всех курсов из бд
-def get_all_courses(session: Session):
+def get_all_courses():
     try:
         courses = session.query(Course).all()
         return courses
@@ -14,7 +13,7 @@ def get_all_courses(session: Session):
 
 
 # Получение определенного курса из бд
-def get_one_course(session: Session, from_currency: str, to_currency: str):
+def get_one_course(from_currency: str, to_currency: str):
     try:
         course = session.query(Course).filter(Course.from_currency == from_currency,
                                               Course.to_currency == to_currency).first()
@@ -24,7 +23,7 @@ def get_one_course(session: Session, from_currency: str, to_currency: str):
 
 
 # Добавление курса в бд
-def add_course(session: Session, from_currency: str, to_currency: str):
+def add_course(from_currency: str, to_currency: str):
     try:
         rate = get_course_currencies(from_currency, to_currency)
         course = Course(
@@ -39,7 +38,7 @@ def add_course(session: Session, from_currency: str, to_currency: str):
 
 
 # Обновление всех курсов в бд
-async def update_course(session: Session):
+async def update_course():
     try:
         courses = session.query(Course).all()
         for course in courses:
