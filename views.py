@@ -1,6 +1,5 @@
-import asyncio
-
 from fastapi import Depends, APIRouter
+from fastapi_utils.tasks import repeat_every
 from sqlalchemy.orm import Session
 
 from db.schemas.courses import ConverterCourseSchema, RateCourseSchema
@@ -36,17 +35,11 @@ async def get_course(schema_course: RateCourseSchema, session: Session = Depends
     return course
 
 
-# Фоновая задача для обновления курса валют в бд каждый час
-async def background_task_scheduler(session: Session):
-    while True:
-        await update_course(session)
-        await asyncio.sleep(3600)  # ожидание: 1 час
-
-
 # Запуск фоновой задчи для обновления курса валют в бд
 @router.on_event("startup")
+@repeat_every(seconds=3600)  # 1 hour
 async def startup_background_task():
-    asyncio.create_task(background_task_scheduler(db))
+    await update_course(db)
 
 
 @router.post("/converter/{amount}_{from_currency}-{to_currency}")

@@ -45,7 +45,7 @@ async def update_course(session: Session):
         for course in courses:
             rate = get_course_currencies(course.from_currency, course.to_currency)
             course.rate = rate
-            session.add(course)
-            session.commit()
+        session.add_all(courses)
+        session.commit()
     except AttributeError as error:
         print(error)
